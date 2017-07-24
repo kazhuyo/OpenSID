@@ -68,8 +68,8 @@
 
 		//Ordering SQL
 		switch($o){
-			case 1: $order_sql = ' ORDER BY u.nomor_urut'; break;
-			case 2: $order_sql = ' ORDER BY u.nomor_urut DESC'; break;
+			case 1: $order_sql = ' ORDER BY YEAR(u.tanggal_penerimaan) ASC, u.nomor_urut ASC'; break;
+			case 2: $order_sql = ' ORDER BY YEAR(u.tanggal_penerimaan) DESC, u.nomor_urut DESC'; break;
 			case 3: $order_sql = ' ORDER BY u.tanggal_penerimaan'; break;
 			case 4: $order_sql = ' ORDER BY u.tanggal_penerimaan DESC'; break;
 			case 5: $order_sql = ' ORDER BY u.pengirim'; break;
@@ -116,6 +116,23 @@
 	function get_surat_masuk($id){
 		$surat_masuk = $this->db->where('id',$id)->get('surat_masuk')->row_array();
 		return $surat_masuk;
+	}
+
+	function get_pengolah_disposisi(){
+		$this->load->model('wilayah_model');
+    $ref_disposisi[] = 'Sekretaris '.ucwords($this->setting->sebutan_desa);
+    array_push($ref_disposisi,
+      'Kasi Pemerintahan',
+      'Kasi Kesejahteraan',
+      'Kasi Pelayanan',
+      'Kaur Keuangan',
+      'Kaur Tata Usaha dan Umum',
+      'Kaur Perencanaan');
+    $list_dusun = $this->wilayah_model->list_data();
+    foreach($list_dusun as $dusun){
+    	array_push($ref_disposisi, "KAWIL ".$dusun['dusun']);
+    };
+    return $ref_disposisi;
 	}
 
 	function upload($url=""){

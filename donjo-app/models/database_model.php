@@ -96,7 +96,7 @@
           `tanggal_surat` date NOT NULL,
           `pengirim` varchar(100),
           `isi_singkat` varchar(200),
-          `disposisi_kepada` tinyint(2),
+          `disposisi_kepada` varchar(50),
           `isi_disposisi` varchar(200),
           PRIMARY KEY  (`id`)
         );

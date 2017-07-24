@@ -24,7 +24,7 @@ class surat_masuk extends CI_Controller{
 		redirect('surat_masuk');
 	}
 
-	function index($p=1,$o=0){
+	function index($p=1,$o=2){
 		$data['p']        = $p;
 		$data['o']        = $o;
 
@@ -61,6 +61,7 @@ class surat_masuk extends CI_Controller{
 			$data['surat_masuk'] = null;
 			$data['form_action'] = site_url("surat_masuk/insert");
 		}
+		$data['ref_disposisi'] = $this->surat_masuk_model->get_pengolah_disposisi();
 
 		$header = $this->header_model->get_data();
 

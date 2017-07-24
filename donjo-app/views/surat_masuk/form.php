@@ -38,7 +38,14 @@
 					</tr>
 					<tr>
 						<th>Disposisi Kepada</th>
-						<td><input name="disposisi_kepada" type="text" class="inputbox required" size="20" value="<?php echo $surat_masuk['disposisi_kepada']?>"/></td>
+						<td>
+					    <select name="disposisi_kepada" class="required">
+					      <option value="">Pilih tujuan disposisi</option>
+					      <?php foreach($ref_disposisi as $data){?>
+					        <option value="<?php echo $data?>" <?php if($surat_masuk['disposisi_kepada']==$data){?>selected<?php }?>><?php echo strtoupper($data)?></option>
+					      <?php }?>
+					    </select>
+						</td>
 					</tr>
 					<tr>
 						<th>Isi Disposisi</th>
