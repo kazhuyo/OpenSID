@@ -96,21 +96,31 @@
 		$data = $_POST;
 		$data['tanggal_penerimaan'] = tgl_indo_in($data['tanggal_penerimaan']);
 		$data['tanggal_surat'] = tgl_indo_in($data['tanggal_surat']);
+		// Upload scan surat masuk
+		unset($data['old_gambar']);
+		$file_gambar = $this->_upload_gambar();
+		if($file_gambar) $data['berkas_scan'] = $file_gambar;
 		$outp = $this->db->insert('surat_masuk',$data);
 		if(!$outp) $_SESSION['success'] = -1;
-		// Upload scan surat masuk
 	}
 
 	function update($id=0){
 		$_SESSION['error_msg'] = '';
 		$_SESSION['success'] = 1;
 		$data = $_POST;
+		if($data['gambar_hapus']){
+		  unlink(LOKASI_DOKUMEN . $data['gambar_hapus']);
+			$data['berkas_scan'] = '';
+		}
+		unset($data['gambar_hapus']);
+		$file_gambar = $this->_upload_gambar($data['old_gambar']);
+		if($file_gambar) $data['berkas_scan'] = $file_gambar;
+		unset($data['old_gambar']);
 		$this->db->where('id',$id);
 		$data['tanggal_penerimaan'] = tgl_indo_in($data['tanggal_penerimaan']);
 		$data['tanggal_surat'] = tgl_indo_in($data['tanggal_surat']);
 		$outp = $this->db->update('surat_masuk',$data);
 		if(!$outp) $_SESSION['success'] = -1;
-		// Upload scan surat masuk
 	}
 
 	function get_surat_masuk($id){
@@ -135,29 +145,14 @@
     return $ref_disposisi;
 	}
 
-	function upload($url=""){
-		$_SESSION['error_msg'] = '';
-
-		// Folder desa untuk surat ini
-		$folder_surat = LOKASI_SURAT_DESA.$url."/";
-		if (!file_exists($folder_surat)) {
-			mkdir($folder_surat, 0777, true);
+	function _upload_gambar($old_document=''){
+		$lokasi_file = $_FILES['satuan']['tmp_name'];
+		if (!empty($lokasi_file)){
+			$nama_file = $_FILES['satuan']['name'];
+			$nama_file   = time().'-'.urlencode($nama_file); 	 // normalkan nama file
+			UploadDocument($nama_file,$old_document);
+			return $nama_file;
 		}
-		// index.html untuk menutup akses ke folder melalui browser
-		copy("surat/raw/"."index.html", $folder_surat."index.html");
-
-		$tipe_file   = $_FILES['foto']['type'];
-		$mime_type_rtf = array("application/rtf", "text/rtf", "application/msword");
-		if(!in_array($tipe_file, $mime_type_rtf)){
-			$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
-			$_SESSION['success']=-1;
-		} else {
-			// Upload ke folder surat ubahan desa
-			$vdir_upload = $folder_surat . $url . ".rtf";
-			move_uploaded_file($_FILES["foto"]["tmp_name"], $vdir_upload);
-			$_SESSION['success']=1;
-		}
-		$this->salin_lampiran($url, $folder_surat);
 	}
 
 	function delete($id=''){

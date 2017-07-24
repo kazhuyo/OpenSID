@@ -16,6 +16,20 @@
 						<th>Tanggal Penerimaan</th>
 						<td><input name="tanggal_penerimaan" type="text" class="inputbox datepicker required" size="20" value="<?php echo tgl_indo_out($surat_masuk['tanggal_penerimaan'])?>"/></td>
 					</tr>
+		      <tr>
+		        <th>Berkas Scan Surat Masuk</th>
+		        <td>
+		          <?php if($surat_masuk['berkas_scan']): ?>
+		            <div style="margin: 10px 0px 10px 0px;">
+		            	<span>Berkas scan: </span>
+									<a href="<?php echo base_url().LOKASI_DOKUMEN.$surat_masuk['berkas_scan']?>" title=""><?php echo $surat_masuk['berkas_scan']?></a>
+		            </div>
+		            <input type="checkbox" name="gambar_hapus" value="<?php echo $surat_masuk['berkas_scan']?>" /><span>Hapus Berkas</span>
+		          <?php endif;?>
+		          <input type="file" name="satuan" /> <span style="color: #aaa;">(Kosongkan jika tidak ingin mengubah berkas)</span>
+		          <input type="hidden" name="old_gambar" value="<?php echo $surat_masuk['berkas_scan']?>">
+		        </td>
+		       </tr>
 					<tr>
 						<th>Kode/Klasifikasi Surat</th>
 						<td><input name="kode_surat" type="text" class="inputbox required" size="20" value="<?php echo $surat_masuk['kode_surat']?>"/></td>

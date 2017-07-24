@@ -98,6 +98,7 @@
           `isi_singkat` varchar(200),
           `disposisi_kepada` varchar(50),
           `isi_disposisi` varchar(200),
+          `berkas_scan` varchar(100),
           PRIMARY KEY  (`id`)
         );
       ";
