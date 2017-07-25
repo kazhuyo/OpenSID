@@ -12,7 +12,7 @@
 		</li>
 	<?php }?>
 	<li <?php if($act==5){?>class="selected"<?php }?>>
-		<a href="<?php echo site_url('surat_masuk')?>">Surat Masuk</a>
+		<a href="<?php echo site_url('surat_masuk/clear')?>">Surat Masuk</a>
 	</li>
 	<li <?php if($act==4){?>class="selected"<?php }?>>
 		<a href="<?php echo site_url('surat/panduan')?>">Panduan</a>

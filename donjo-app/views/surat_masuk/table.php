@@ -15,11 +15,20 @@
 						<a href="<?php echo site_url('surat_masuk/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah Surat Baru</a>
 						<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("surat_masuk/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Surat
 					</div>
-				</div>
-					<div class="right">
-						<input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('surat_masuk/search')?>');$('#'+'mainform').submit();}" />
-						<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('surat_masuk/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
+					<div style="margin-top: 10px;">
+						<span>Tahun penerimaan: </span>
+            <select name="filter" onchange="formAction('mainform','<?php echo site_url('surat_masuk/filter')?>')">
+                <option value="" <?php if(empty($filter)) :?>selected<?php endif;?>>Semua</option>
+                <?php foreach($tahun_penerimaan as $tahun): ?>
+	                <option value="<?php echo $tahun['tahun']?>" <?php if($filter==$tahun['tahun']) :?>selected<?php endif?>><?php echo $tahun['tahun']?></option>
+	              <?php endforeach; ?>
+            </select>
 					</div>
+				</div>
+				<div class="right">
+					<input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('surat_masuk/search')?>');$('#'+'mainform').submit();}" />
+					<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('surat_masuk/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
+				</div>
 			</div>
 			<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 				<table class="list">

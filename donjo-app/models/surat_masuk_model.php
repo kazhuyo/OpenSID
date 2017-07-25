@@ -34,7 +34,9 @@
 	function filter_sql(){
 		if(isset($_SESSION['filter'])){
 			$kf = $_SESSION['filter'];
-			$filter_sql= " AND u.kode_surat = $kf";
+			if(!empty($kf)) {
+				$filter_sql= " AND YEAR(u.tanggal_penerimaan) = $kf";
+			}
 		return $filter_sql;
 		}
 	}
@@ -88,6 +90,11 @@
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
 		return $data;
+	}
+
+	function list_tahun_penerimaan(){
+		$query = $this->db->distinct()->select('YEAR(tanggal_penerimaan) AS tahun')->order_by('tanggal_penerimaan DESC')->get('surat_masuk')->result_array();
+		return $query;
 	}
 
 	function insert(){
