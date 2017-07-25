@@ -156,17 +156,13 @@
 	}
 
 	function delete($id=''){
-		// Surat jenis sistem (nilai 1) tidak bisa dihapus
-		$sql  = "DELETE FROM tweb_surat_format WHERE jenis <> 1 AND id=?";
-		$outp = $this->db->query($sql,array($id));
-
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		$_SESSION['success'] = 1;
+		$outp = $this->db->where('id',$id)->delete('surat_masuk');
+		if(!$outp) $_SESSION['success'] = -1;
 	}
 
 	function delete_all(){
 		$id_cb = $_POST['id_cb'];
-
 		if(count($id_cb)){
 			foreach($id_cb as $id){
 				$this->delete($id);
