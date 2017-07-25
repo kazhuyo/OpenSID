@@ -62,9 +62,12 @@
 								<td align="center">
 									<input type="checkbox" name="id_cb[]" value="<?php echo $data['id']?>" <?php if($data['jenis']==1){echo " disabled= disabled";}?> />
 								</td>
-								<td align="center">
+								<td>
 									<div class="uibutton-group">
 										<a href="<?php echo site_url("surat_masuk/form/$p/$o/$data[id]")?>" class="uibutton tipsy south fa-tipis" title="Ubah Data"><span class="fa fa-edit"></span> Ubah</a>
+										<?php if($data['berkas_scan']): ?>
+											<a href="<?php echo base_url(LOKASI_DOKUMEN.$data['berkas_scan'])?>" class="uibutton tipsy south fa-tipis" title="Unduh Surat"><span class="fa fa-download"></span> Unduh</a>
+										<?php endif; ?>
 										<a href="<?php echo site_url("surat_masuk/delete/$p/$o/$data[id]")?>" class="uibutton tipsy south" title="Hapus Data" target="confirm" message="Apakah Anda Yakin?" header="Hapus Data"><span class="fa fa-trash"></span></a>
 									</div>
 								</td>
