@@ -6,6 +6,12 @@
 		});
 	});
 </script>
+<style type="text/css">
+	td.nostretch {
+    width:1%;
+    white-space:nowrap;
+}
+</style>
 <div id="pageC">
 	<div id="contentpane">
 		<form id="mainform" name="mainform" action="" method="post">
@@ -15,20 +21,75 @@
 						<a href="<?php echo site_url('surat_masuk/form')?>" class="uibutton tipsy south" title="Tambah Data" ><span class="fa fa-plus-square">&nbsp;</span>Tambah Surat Baru</a>
 						<button type="button" title="Hapus Data" onclick="deleteAllBox('mainform','<?php echo site_url("surat_masuk/delete_all/$p/$o")?>')" class="uibutton tipsy south"><span class="fa fa-trash">&nbsp;</span>Hapus Surat
 					</div>
-					<div style="margin-top: 10px;">
-						<span>Tahun penerimaan: </span>
-            <select name="filter" onchange="formAction('mainform','<?php echo site_url('surat_masuk/filter')?>')">
-                <option value="" <?php if(empty($filter)) :?>selected<?php endif;?>>Semua</option>
-                <?php foreach($tahun_penerimaan as $tahun): ?>
-	                <option value="<?php echo $tahun['tahun']?>" <?php if($filter==$tahun['tahun']) :?>selected<?php endif?>><?php echo $tahun['tahun']?></option>
-	              <?php endforeach; ?>
-            </select>
-					</div>
 				</div>
+		    <div class="left">
+		      <div class="uibutton-group">
+	         <a class="uibutton tipsy south" title="Cetak" onclick="$('#'+'mainform').attr('target','_blank');formAction('mainform','<?php echo site_url('surat_masuk/cetak')?>')"><span class="fa fa-print">&nbsp;</span>Cetak</a>
+	          <a class="uibutton tipsy south" title="Excel" onclick="$('#'+'mainform').attr('target','_blank');formAction('mainform','<?php echo site_url('surat_masuk/excel')?>')"><span class="fa fa-file-text">&nbsp;</span>Excel</a>
+		      </div>
+		    </div>
 				<div class="right">
 					<input name="cari" id="cari" type="text" class="inputbox help tipped" size="20" value="<?php echo $cari?>" title="Cari.." onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?php echo site_url('surat_masuk/search')?>');$('#'+'mainform').submit();}" />
 					<button type="button" onclick="$('#'+'mainform').attr('action','<?php echo site_url('surat_masuk/search')?>');$('#'+'mainform').submit();" class="uibutton tipsy south"  title="Cari Data"><span class="fa fa-search">&nbsp;</span>Cari</button>
 				</div>
+		    <span style="clear: both; text-align: center;"><h3>SURAT MASUK</h3></span>
+		    <table id="j" style="width: 100%; margin-left: 5px;">
+			    <tr>
+			    	<td class="nostretch">Tahun penerimaan</td>
+            <td class="nostretch">:</td>
+						<td class="nostretch">
+	            <select name="filter" onchange="formAction('mainform','<?php echo site_url('surat_masuk/filter')?>')">
+	                <option value="" <?php if(empty($filter)) :?>selected<?php endif;?>>Semua</option>
+	                <?php foreach($tahun_penerimaan as $tahun): ?>
+		                <option value="<?php echo $tahun['tahun']?>" <?php if($filter==$tahun['tahun']) :?>selected<?php endif?>><?php echo $tahun['tahun']?></option>
+		              <?php endforeach; ?>
+	            </select>
+						</td>
+						<td colspan="3">&nbsp;</td>
+					</tr>
+          <tr>
+            <td class="nostretch">Penandatangan</td>
+            <td class="nostretch">:</td>
+            <td class="nostretch">
+	            <select name="pamong_ttd"  class="inputbox">
+	              <option value="">Pilih Staf Pemerintah <?php echo ucwords($this->setting->sebutan_desa)?></option>
+	              <?php foreach($pamong AS $data){?>
+	                <option value="<?php echo $data['pamong_nama']?>"><?php echo $data['pamong_nama']?>(<?php echo $data['jabatan']?>)</option>
+	              <?php }?>
+              </select></td>
+            <td class="nostretch" style="padding-left: 5px;">Sebagai : </td>
+            <td class="nostretch">
+	            <select name="jabatan_ttd"  class="inputbox">
+	              <option value="">Pilih Jabatan</option>
+	              <?php foreach($pamong AS $data){?>
+	                <option ><?php echo $data['jabatan']?></option>
+	              <?php }?>
+              </select>
+            </td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="nostretch">Diketahui</td>
+            <td class="nostretch">:</td>
+            <td class="nostretch">
+	            <select name="pamong_ketahui"  class="inputbox">
+	              <option value="">Pilih Staf Pemerintah <?php echo ucwords($this->setting->sebutan_desa)?></option>
+	              <?php foreach($pamong AS $data){?>
+	                <option value="<?php echo $data['pamong_nama']?>"><?php echo $data['pamong_nama']?>(<?php echo $data['jabatan']?>)</option>
+	              <?php }?>
+              </select></td>
+            <td class="nostretch" style="padding-left: 5px;">Sebagai : </td>
+            <td class="nostretch">
+	            <select name="jabatan_ketahui"  class="inputbox">
+	              <option value="">Pilih Jabatan</option>
+	              <?php foreach($pamong AS $data){?>
+	                <option ><?php echo $data['jabatan']?></option>
+	              <?php }?>
+              </select>
+            </td>
+            <td>&nbsp;</td>
+          </tr>
+		    </table>
 			</div>
 			<div class="ui-layout-center" id="maincontent" style="padding: 5px;">
 				<table class="list">

@@ -9,6 +9,8 @@ class surat_masuk extends CI_Controller{
 		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 		if($grup!=1) redirect('siteman');
 		$this->load->model('surat_masuk_model');
+		$this->load->model('config_model');
+		$this->load->model('pamong_model');
 		$this->load->model('header_model');
 		$this->modul_ini = 4;
 		$this->tab_ini = 5;
@@ -32,13 +34,13 @@ class surat_masuk extends CI_Controller{
 		if(isset($_SESSION['filter']))
 			$data['filter'] = $_SESSION['filter'];
 		else $data['filter'] = '';
-
 		if(isset($_POST['per_page']))
 			$_SESSION['per_page']=$_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
 
+		$data['per_page'] = $_SESSION['per_page'];
 		$data['paging']  = $this->surat_masuk_model->paging($p,$o);
 		$data['main']    = $this->surat_masuk_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
+		$data['pamong'] = $this->pamong_model->list_data();
 		$data['tahun_penerimaan'] = $this->surat_masuk_model->list_tahun_penerimaan();
 		$data['keyword'] = $this->surat_masuk_model->autocomplete();
 		$header = $this->header_model->get_data();
@@ -89,8 +91,7 @@ class surat_masuk extends CI_Controller{
 
 	function filter(){
 		$filter = $this->input->post('filter');
-		if($filter!=0)
-			$_SESSION['filter']=$filter;
+		if($filter!=0) $_SESSION['filter']=$filter;
 		else unset($_SESSION['filter']);
 		redirect('surat_masuk');
 	}
@@ -118,6 +119,20 @@ class surat_masuk extends CI_Controller{
 	function delete_all($p=1,$o=0){
 		$this->surat_masuk_model->delete_all();
 		redirect("surat_masuk/index/$p/$o");
+	}
+
+	function cetak($o=0){
+		$data['input'] = $_POST;
+		$data['desa'] = $this->config_model->get_data();
+		$data['main'] = $this->surat_masuk_model->list_data($o,0, 10000);
+		$this->load->view('surat_masuk/surat_masuk_print',$data);
+	}
+
+	function excel($o=0){
+		$data['input'] = $_POST;
+		$data['desa'] = $this->config_model->get_data();
+		$data['main'] = $this->surat_masuk_model->list_data($o,0, 10000);
+		$this->load->view('surat_masuk/surat_masuk_excel',$data);
 	}
 
 }
